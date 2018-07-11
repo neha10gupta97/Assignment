@@ -8,14 +8,13 @@ export default class Chip extends Component {
     }
 
     closeChip(){
-        debugger
-        $('#chip'+this.props.id).addClass('hidden');
+        $('#chip-'+this.props.name).addClass('hidden');
     }
 
 
     render() {
         return (
-        <div className="chip-container" id={"chip" + this.props.id}>
+        <div className="chip-container" id={"chip-" + this.props.name}>
             <div className="user-img"></div>
             <div className="user-name">{this.props.name}</div>
             <div className="close" onClick={this.closeChip}>X</div>        

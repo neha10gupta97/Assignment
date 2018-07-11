@@ -12,12 +12,16 @@ export default class App extends Component {
     this.updateInput = this.updateInput.bind(this);
     this.addChip = this.addChip.bind(this);
     this.populateChipData = this.populateChipData.bind(this);
+    this.populateList = this.populateList.bind(this);
   }
+
+  
 
   updateInput(e){
     this.setState({input: e.target.value});
     
   }
+
 
   showList(){
     $('.list-container').removeClass('hidden');
@@ -36,7 +40,7 @@ export default class App extends Component {
     var len = nameList.length;
     for( var i=0;i<len;i++){
       chips.push(
-        <Chip key={i} name={nameList[i]} id={i}/>
+        <Chip key={i} name={nameList[i]} />
       );
     }
     return(
@@ -46,12 +50,32 @@ export default class App extends Component {
     )
   }
 
+  populateList(){
+    var listData = [];
+    var items = this.state.list;
+    for(var i=0;i<items.length;i++){
+      var item = items[i].toLowerCase();
+      var input = this.state.input;
+      if(input)
+        input = input.toLowerCase();
+      if(item.indexOf(input) >= 0){
+        listData.push(
+          <li key={i} onClick={this.addChip}>{items[i]}</li>
+        )
+      } 
+    }
+    return(
+      <div>
+        {listData}
+      </div>
+    )
+  }
 
   render() {
 
-    var list = this.state.list
-        .filter(items => this.state.input === '' || items.includes(this.state.input))
-        .map((item, index) => <li key={index} onClick={this.addChip}>{item}</li>);
+    // var list = this.state.list
+    //     .filter(items => this.state.input === '' || items.includes(this.state.input))
+    //     .map((item, index) => <li key={index} onClick={this.addChip}>{item}</li>);
 
     return (
       <div className="container">
@@ -64,7 +88,7 @@ export default class App extends Component {
         </div>
         <div className="list-container hidden">
           <ul>
-            {list}
+            {this.populateList()}
           </ul>
         </div>
         
