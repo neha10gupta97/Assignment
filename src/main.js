@@ -13,13 +13,49 @@ export default class App extends Component {
     this.addChip = this.addChip.bind(this);
     this.populateChipData = this.populateChipData.bind(this);
     this.populateList = this.populateList.bind(this);
+    this.handleBackspace = this.handleBackspace.bind(this);
+    this.updateChipData = this.updateChipData.bind(this);
   }
 
-  
+  componentDidMount(){
+    this.handleBackspace();
+  }
+
+  handleBackspace(e){
+    var _this = this;
+    var flag = false;
+    $(window).keydown(function(e){
+      if (e.keyCode == 8 || e.keyCode == 46) {
+          debugger
+        var chipList = _this.state.chipData;
+        var len = chipList.length;
+        var lastChipName = '';
+        if(len)
+          lastChipName = chipList[len-1];
+        if(!flag){
+            $('#chip-'+lastChipName).addClass('highlight');
+            flag = !flag;
+        }
+        else{
+            $('#chip-'+lastChipName).addClass('hidden');
+            chipList.pop();
+            _this.setState({chipData:chipList});
+            flag = !flag;                   
+        }
+      }
+	  });
+  }
 
   updateInput(e){
     this.setState({input: e.target.value});
     
+  }
+
+  updateChipData(name){
+      debugger
+    var list = this.state.chipData;
+    list.splice( list.indexOf(name), 1 );
+    this.setState({chipData:list});
   }
 
 
@@ -30,8 +66,11 @@ export default class App extends Component {
 
   addChip(e){
     var data = this.state.chipData;
-    data.push(e.target.innerHTML);
-    this.setState({chipData: data});
+    var item = e.target.innerHTML;
+    if(!data.includes(item)){
+        data.push(item);
+        this.setState({chipData: data});
+    }
   }
 
   populateChipData(){
@@ -40,7 +79,7 @@ export default class App extends Component {
     var len = nameList.length;
     for( var i=0;i<len;i++){
       chips.push(
-        <Chip key={i} name={nameList[i]} />
+        <Chip key={i} name={nameList[i]} update_chip_data={this.updateChipData} />
       );
     }
     return(

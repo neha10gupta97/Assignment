@@ -9,6 +9,7 @@ export default class Chip extends Component {
 
     closeChip(){
         $('#chip-'+this.props.name).addClass('hidden');
+        this.props.update_chip_data(this.props.name);
     }
 
 
