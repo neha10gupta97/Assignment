@@ -6,7 +6,7 @@ export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {input: '', 
-      list: ['Mark', 'Jane', 'Julie', 'Ross', 'Chandler', 'Monica', 'Aman'],
+      list: ['Ross', 'Chandler', 'Monica', 'Pheobe', 'Joey', 'Rachel', 'Mark', 'Gunther', 'Mike', 'Mr. Hackles'],
       chipData: []
     };
     this.updateInput = this.updateInput.bind(this);
@@ -26,7 +26,6 @@ export default class App extends Component {
     var flag = false;
     $(window).keydown(function(e){
       if (e.keyCode == 8 || e.keyCode == 46) {
-          debugger
         var chipList = _this.state.chipData;
         var len = chipList.length;
         var lastChipName = '';
@@ -37,7 +36,6 @@ export default class App extends Component {
             flag = !flag;
         }
         else{
-            $('#chip-'+lastChipName).addClass('hidden');
             chipList.pop();
             _this.setState({chipData:chipList});
             flag = !flag;                   
@@ -52,7 +50,6 @@ export default class App extends Component {
   }
 
   updateChipData(name){
-      debugger
     var list = this.state.chipData;
     list.splice( list.indexOf(name), 1 );
     this.setState({chipData:list});
@@ -112,10 +109,6 @@ export default class App extends Component {
 
   render() {
 
-    // var list = this.state.list
-    //     .filter(items => this.state.input === '' || items.includes(this.state.input))
-    //     .map((item, index) => <li key={index} onClick={this.addChip}>{item}</li>);
-
     return (
       <div className="container">
         <div className="chip-data-container">
@@ -123,7 +116,7 @@ export default class App extends Component {
         </div>
         <div className="input-container">
           <input type="text" id="input-item" onChange={this.updateInput} onFocus={this.showList}/>
-          <label className="input-label" htmlFor="input-item">Start Typing..</label>
+          <label className="input-label" htmlFor="input-item">Find friends character..</label>
         </div>
         <div className="list-container hidden">
           <ul>
